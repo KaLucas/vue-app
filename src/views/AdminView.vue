@@ -1,25 +1,28 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import Snackbar from '@/components/Snackbar.vue'
 
 const store = useAuthStore()
 const router = useRouter()
 const email = ref('')
 const password = ref('')
+const showError = ref(false)
+
+const isFormValid = computed(() => !!email.value && !!password.value)
 
 function goToList() {
   router.push('/')
 }
 
-function handleLogin(email: string, password: string) {
-  const success = store.login(email, password)
+function handleLogin() {
+  const success = store.login(email.value, password.value)
 
-  if (success) {
+  if (success && isFormValid) {
     router.push('/admin/dashboard')
   } else {
-    // mostrar erro pro usuário
-    alert('erro')
+    showError.value = true
   }
 }
 </script>
@@ -31,17 +34,30 @@ function handleLogin(email: string, password: string) {
     </div>
     <div class="login-container flex">
       <img src="@/assets/vue-app.png" />
-      <form class="flex" @submit.prevent="handleLogin(email, password)">
+      <form class="flex" @submit.prevent="handleLogin()">
         <fieldset>
           <label for="email">Email*</label>
-          <input type="email" title="email" v-model="email" />
+          <input id="email" type="email" title="email" v-model="email" required />
         </fieldset>
         <fieldset>
           <label for="password">Senha*</label>
-          <input type="password" title="password" v-model="password" />
+          <input id="password" type="password" title="password" v-model="password" required />
         </fieldset>
-        <button type="submit" class="base">Login</button>
+        <button
+          type="submit"
+          class="base"
+          :class="{ disabled: !isFormValid }"
+          :disabled="!isFormValid"
+        >
+          Login
+        </button>
       </form>
+      <Snackbar
+        v-if="showError"
+        text="E-mail ou senha inválidos."
+        type="error"
+        @close="showError = false"
+      />
     </div>
   </div>
 </template>

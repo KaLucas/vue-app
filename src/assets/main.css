@@ -32,3 +32,10 @@ button {
     border-radius: 8px;
   }
 }
+
+.disabled {
+  pointer-events: none;
+  cursor: default;
+  background-color: #eeeeee;
+  color: var(--vt-c-black-soft);
+}
