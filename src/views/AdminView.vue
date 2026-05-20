@@ -33,7 +33,7 @@ function handleLogin() {
       <button @click="goToList()">Acessar lista</button>
     </div>
     <div class="login-container flex">
-      <img src="@/assets/vue-app.png" />
+      <img src="@/assets/vue-app.png" width="100%" height="auto" />
       <form class="flex" @submit.prevent="handleLogin()">
         <fieldset>
           <label for="email">Email*</label>
@@ -79,6 +79,7 @@ function handleLogin() {
   }
   .login-container {
     width: 300px;
+    max-width: 100%;
     margin: 0 auto;
     flex-direction: column;
     justify-content: center;

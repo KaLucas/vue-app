@@ -4,8 +4,14 @@ import Sidebar from '@/components/Sidebar.vue'
 </script>
 
 <template>
-  <main>
+  <main class="flex">
     <Sidebar />
     <UsersList />
   </main>
 </template>
+
+<style lang="css" scoped>
+main {
+  flex-direction: row;
+}
+</style>
