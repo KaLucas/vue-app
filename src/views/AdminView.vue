@@ -37,11 +37,18 @@ function handleLogin() {
       <form class="flex" @submit.prevent="handleLogin()">
         <fieldset>
           <label for="email">Email*</label>
-          <input id="email" type="email" title="email" v-model="email" required />
+          <input class="border" id="email" type="email" title="email" v-model="email" required />
         </fieldset>
         <fieldset>
           <label for="password">Senha*</label>
-          <input id="password" type="password" title="password" v-model="password" required />
+          <input
+            class="border"
+            id="password"
+            type="password"
+            title="password"
+            v-model="password"
+            required
+          />
         </fieldset>
         <button
           type="submit"
