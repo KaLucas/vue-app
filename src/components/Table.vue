@@ -77,8 +77,9 @@ function changePage(page: number) {
     button {
       align-items: center;
       background-color: transparent;
-      color: var(--vt-c-black-soft);
+      color: var(--text-primary);
       width: auto;
+      gap: 5px;
     }
     span {
       display: block;

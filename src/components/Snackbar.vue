@@ -29,7 +29,7 @@ onUnmounted(() => {
 .snackbar {
   width: 300px;
   min-height: 50px;
-  color: var(--vt-c-black-soft);
+  color: var(--color-background-soft);
   padding: 10px 20px;
   border-radius: 8px;
   position: absolute;

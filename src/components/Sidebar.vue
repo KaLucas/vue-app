@@ -40,13 +40,14 @@ function handleLogout() {
 aside {
   width: 270px;
   min-height: 100vh;
-  border-right: 1px solid var(--vt-c-divider-dark-2);
+  border-right: 1px solid var(--color-border);
   .sidebar-wrapper {
     min-height: 100vh;
     flex: 1;
     flex-direction: column;
     justify-content: space-between;
     padding: 16px;
+    box-sizing: border-box;
     .top-sidebar {
       p {
         color: var(--color-text);
@@ -55,7 +56,7 @@ aside {
         flex: 1;
         box-sizing: border-box;
         border-radius: 12px;
-        border: 1px solid color-mix(in srgb, var(--vt-c-divider-dark-2) 30%, transparent);
+        border: 1px solid color-mix(in srgb, var(--border) 30%, transparent);
         padding: 24px;
         flex-direction: column;
         .users-data {
@@ -63,7 +64,7 @@ aside {
           align-items: center;
           gap: 10px;
           .lucide-users-icon {
-            color: var(--green-dark-3);
+            color: var(--brand);
             line-height: normal;
           }
           p {
@@ -87,10 +88,11 @@ aside {
           align-items: center;
           justify-content: center;
           gap: 10px;
+          color: green;
         }
       }
       .img-wrapper {
-        border-top: 1px solid var(--vt-c-divider-dark-2);
+        border-top: 1px solid var(--color-border);
         padding: 16px;
         img {
           display: block;

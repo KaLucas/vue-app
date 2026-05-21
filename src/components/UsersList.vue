@@ -2,6 +2,14 @@
 import Table from './Table.vue'
 </script>
 
-<template><Table /></template>
+<template>
+  <section>
+    <Table />
+  </section>
+</template>
 
-<style scoped></style>
+<style lang="css" scoped>
+section {
+  padding: 16px;
+}
+</style>
