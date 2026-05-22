@@ -11,5 +11,6 @@ import Table from './Table.vue'
 <style lang="css" scoped>
 section {
   padding: 16px;
+  width: 100%;
 }
 </style>

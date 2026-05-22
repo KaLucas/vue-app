@@ -17,11 +17,11 @@ const columns = ref<{ key: keyof DatagridUsersList; label: string }[]>([
 ])
 
 onMounted(async () => {
-  await store.fetchUsers()
+  await store.fetchUsers({ page: 1 })
 })
 
 function changePage(page: number) {
-  store.fetchUsers(page)
+  store.fetchUsers({ page })
 }
 </script>
 
@@ -62,7 +62,7 @@ function changePage(page: number) {
       </div>
     </template>
 
-    <p v-else>No matches found.</p>
+    <p class="empty" v-else>Resultado não encontrado.</p>
   </template>
 </template>
 
@@ -85,6 +85,14 @@ function changePage(page: number) {
       display: block;
       font-size: 12px;
     }
+  }
+}
+p {
+  &.empty {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 100px;
   }
 }
 </style>

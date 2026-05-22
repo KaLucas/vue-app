@@ -13,6 +13,10 @@ interface GetUsersResponse {
   }
 }
 
+export interface GetUsersParams {
+  page?: number
+}
+
 const baseUrl = API_CONFIG.baseUrl
 
 export const useUsersStore = defineStore('users', () => {
@@ -20,16 +24,18 @@ export const useUsersStore = defineStore('users', () => {
   const meta = ref({ page: 1, limit: 10, total: 0, pages: 1 })
   const loading = ref(false)
 
-  const fetchUsers = async (page = 1) => {
+  const fetchUsers = async (params?: GetUsersParams) => {
     loading.value = true
     try {
       const url = new URL(`${baseUrl}collections/users/records`)
-      url.searchParams.set('page', String(page))
-      url.searchParams.set('limit', String(meta.value.limit))
+      url.searchParams.set('project_id', API_CONFIG.projectId)
+      if (params?.page) url.searchParams.set('page', String(params.page))
+      if (params) url.searchParams.set('limit', '10')
 
-      const response = await fetch(url.toString(), { headers: createApiHeaders() })
+      const response = await fetch(url.toString(), {
+        headers: createApiHeaders(),
+      })
       const data: GetUsersResponse = await response.json()
-
       users.value = data.data.map((user) => ({
         id: user.id,
         email: user.data.email,

@@ -38,7 +38,7 @@ function handleLogout() {
 
 <style lang="css" scoped>
 aside {
-  width: 270px;
+  min-width: 270px;
   min-height: 100vh;
   border-right: 1px solid var(--color-border);
   .sidebar-wrapper {

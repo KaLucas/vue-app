@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Cards from '@/components/Cards.vue'
 import router from '@/router'
 import { useThemeStore } from '@/stores/theme'
 import { Moon, Sun } from '@lucide/vue'
@@ -23,6 +24,7 @@ function handleRedirect() {
       </div>
     </div>
   </header>
+  <Cards />
 </template>
 
 <style lang="css" scoped>

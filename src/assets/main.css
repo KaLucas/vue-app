@@ -46,7 +46,10 @@ button {
 }
 
 .spinning {
+  display: block;
   animation: spin 1s linear infinite;
+  margin: 30px auto;
+  color: var(--text-on-brand-container);
 }
 
 @keyframes spin {
