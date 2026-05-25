@@ -3,7 +3,7 @@ import type { DatagridUsersList } from '@/models/user.model'
 import { useUsersStore } from '@/stores/users'
 import { storeToRefs } from 'pinia'
 import { onMounted, ref } from 'vue'
-import { Loader2, ChevronLeft, ChevronRight } from '@lucide/vue'
+import { ChevronLeft, ChevronRight, Edit, Trash } from '@lucide/vue'
 
 const store = useUsersStore()
 const { users, loading, meta } = storeToRefs(store)
@@ -26,44 +26,50 @@ function changePage(page: number) {
 </script>
 
 <template>
-  <Loader2 :size="64" class="spinning" v-if="loading" />
-  <template v-else>
-    <template v-if="users.length">
-      <div class="table-wrapper flex">
-        <table>
-          <thead>
-            <tr>
-              <th v-for="col in columns" :key="col.key">{{ col.label }}</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="user in users" :key="user.id">
-              <td v-for="col in columns" :key="col.key">
-                {{ user[col.key] }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+  <div class="table-wrapper flex">
+    <table>
+      <thead>
+        <tr>
+          <th v-for="col in columns" :key="col.key">{{ col.label }}</th>
+          <th>Ações</th>
+        </tr>
+        <tr v-if="loading">
+          <td :colspan="columns.length + 1" class="progress-cell">
+            <div class="progress-bar">
+              <div class="fill"></div>
+            </div>
+          </td>
+        </tr>
+      </thead>
+      <tbody v-if="!loading">
+        <template v-if="users.length">
+          <tr v-for="user in users" :key="user.id">
+            <td v-for="col in columns" :key="col.key">
+              {{ user[col.key] }}
+            </td>
+            <td>
+              <div class="action-buttons flex">
+                <Edit :size="20" />
+                <Trash :size="20" />
+              </div>
+            </td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
 
-        <div class="pagination flex">
-          <button class="flex" :disabled="meta.page === 1" @click="changePage(meta.page - 1)">
-            <ChevronLeft />Anterior
-          </button>
-          <span>{{ meta.page }} / {{ meta.pages }}</span>
-          <button
-            class="flex"
-            :disabled="meta.page === meta.pages"
-            @click="changePage(meta.page + 1)"
-          >
-            Próxima <ChevronRight />
-          </button>
-        </div>
-      </div>
-    </template>
+    <p class="empty" v-if="!users.length && !loading">Resultado não encontrado.</p>
 
-    <p class="empty" v-else>Resultado não encontrado.</p>
-  </template>
+    <div class="pagination flex">
+      <button class="flex" :disabled="meta.page === 1" @click="changePage(meta.page - 1)">
+        <ChevronLeft />Anterior
+      </button>
+      <span>{{ meta.page }} / {{ meta.pages }}</span>
+      <button class="flex" :disabled="meta.page === meta.pages" @click="changePage(meta.page + 1)">
+        Próxima <ChevronRight />
+      </button>
+    </div>
+  </div>
 </template>
 
 <style lang="css" scoped>
@@ -86,13 +92,67 @@ function changePage(page: number) {
       font-size: 12px;
     }
   }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    td,
+    th {
+      border: 1px solid var(--vt-c-white-mute);
+      padding: 8px;
+    }
+
+    tr {
+      &:nth-child(even) {
+        background-color: var(--vt-c-white-mute);
+      }
+    }
+
+    th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: var(--highlight);
+      color: white;
+    }
+    .action-buttons {
+      gap: 10px;
+    }
+    p {
+      &.empty {
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 100px;
+      }
+    }
+  }
 }
-p {
-  &.empty {
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 100px;
+
+.progress-bar {
+  position: relative;
+  width: 100%;
+  height: 3px;
+  background: var(--surface-primary);
+  overflow: hidden;
+  margin-top: 8px;
+  .fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30%;
+    height: 100%;
+    background: var(--brand);
+    animation: progress-bar-move 1.5s linear infinite;
+  }
+}
+
+@keyframes progress-bar-move {
+  from {
+    left: -30%;
+  }
+
+  to {
+    left: 100%;
   }
 }
 </style>
