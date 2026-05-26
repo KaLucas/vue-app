@@ -7,6 +7,7 @@ import { ChevronLeft, ChevronRight, Edit, Trash } from '@lucide/vue'
 import { useDialogStore } from '@/stores/dialog'
 import DeleteDialog from './DeleteDialog.vue'
 import ModalWindow from './ModalWindow.vue'
+import { formatDate } from '@/utils/format-date'
 
 const usersStore = useUsersStore()
 const dialogStore = useDialogStore()
@@ -19,6 +20,20 @@ const columns = ref<{ key: keyof DatagridUsersList; label: string }[]>([
   { key: 'created_at', label: 'Criado em' },
   { key: 'updated_at', label: 'Atualizado em' },
 ])
+
+const isDateColumn = (key: keyof DatagridUsersList) => {
+  return key === 'created_at' || key === 'updated_at'
+}
+
+const formatCellValue = (user: DatagridUsersList, key: keyof DatagridUsersList) => {
+  const value = user[key]
+
+  if (isDateColumn(key)) {
+    return formatDate(value)
+  }
+
+  return value
+}
 
 onMounted(async () => {
   await usersStore.fetchUsers({ page: 1 })
@@ -49,7 +64,7 @@ function changePage(page: number) {
         <template v-if="users.length">
           <tr v-for="user in users" :key="user.id">
             <td v-for="col in columns" :key="col.key">
-              {{ user[col.key] }}
+              {{ formatCellValue(user, col.key) }}
             </td>
             <td>
               <div class="action-buttons flex">

@@ -2,13 +2,13 @@
 import router from '@/router'
 import { useAuthStore } from '@/stores/auth'
 import { useUsersStore } from '@/stores/users'
+import { formatDate } from '@/utils/format-date'
 import { LogOut, Users } from '@lucide/vue'
 import { storeToRefs } from 'pinia'
 
 const authStore = useAuthStore()
 const usersStore = useUsersStore()
 const { users, meta } = storeToRefs(usersStore)
-const total = meta.value.total
 
 function handleLogout() {
   authStore.logout()
@@ -25,8 +25,8 @@ function handleLogout() {
             <Users />
             <p class="users-title">Total de usuários</p>
           </div>
-          <p class="users-total">{{ total }}</p>
-          <p class="users-last-update">Último cadastro: {{ users[0]?.created_at }}</p>
+          <p class="users-total">{{ meta.total }}</p>
+          <p class="users-last-update">Último cadastro: {{ formatDate(users[0]?.created_at) }}</p>
         </div>
       </div>
       <div class="bottom-sidebar">
@@ -80,6 +80,9 @@ aside {
           font-size: 34px;
           font-weight: bold;
           opacity: 1;
+        }
+        .users-last-update {
+          font-size: 14px;
         }
       }
     }
