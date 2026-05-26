@@ -11,7 +11,7 @@ const app = createApp(App)
 app.use(router)
 
 app.use(createPinia())
-const store = useThemeStore()
-store.initTheme()
+const themeStore = useThemeStore()
+themeStore.initTheme()
 
 app.mount('#app')

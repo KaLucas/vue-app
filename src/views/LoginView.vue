@@ -4,7 +4,7 @@ import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import Snackbar from '@/components/Snackbar.vue'
 
-const store = useAuthStore()
+const authStore = useAuthStore()
 const router = useRouter()
 const email = ref('')
 const password = ref('')
@@ -17,7 +17,7 @@ function goToList() {
 }
 
 function handleLogin() {
-  const success = store.login(email.value, password.value)
+  const success = authStore.login(email.value, password.value)
 
   if (success && isFormValid) {
     router.push('/admin/dashboard')

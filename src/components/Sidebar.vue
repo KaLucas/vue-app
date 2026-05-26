@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import router from '@/router'
 import { useAuthStore } from '@/stores/auth'
+import { useUsersStore } from '@/stores/users'
 import { LogOut, Users } from '@lucide/vue'
+import { storeToRefs } from 'pinia'
 
-const store = useAuthStore()
+const authStore = useAuthStore()
+const usersStore = useUsersStore()
+const { users, meta } = storeToRefs(usersStore)
+const total = meta.value.total
 
 function handleLogout() {
-  store.logout()
+  authStore.logout()
   router.push('/admin')
 }
 </script>
@@ -20,8 +25,8 @@ function handleLogout() {
             <Users />
             <p class="users-title">Total de usuários</p>
           </div>
-          <p class="users-total">13</p>
-          <p class="users-last-update">Último cadastro:</p>
+          <p class="users-total">{{ total }}</p>
+          <p class="users-last-update">Último cadastro: {{ users[0]?.created_at }}</p>
         </div>
       </div>
       <div class="bottom-sidebar">

@@ -4,11 +4,11 @@ import { storeToRefs } from 'pinia'
 import { onMounted } from 'vue'
 import { Loader2 } from '@lucide/vue'
 
-const store = useUsersStore()
-const { users, loading } = storeToRefs(store)
+const usersStore = useUsersStore()
+const { users, loading } = storeToRefs(usersStore)
 
 onMounted(async () => {
-  await store.fetchUsers()
+  await usersStore.fetchUsers()
 })
 </script>
 
