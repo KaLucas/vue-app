@@ -1,21 +1,13 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { API_CONFIG, createApiHeaders } from '../config/environment'
-import type { DatagridUsersList, User } from '@/models/user.model'
-
-interface GetUsersResponse {
-  data: User[]
-  meta: {
-    page: number
-    limit: number
-    total: number
-    pages: number
-  }
-}
-
-export interface GetUsersParams {
-  page?: number
-}
+import type {
+  DatagridUsersList,
+  GetUsersParams,
+  GetUsersResponse,
+  User,
+  UserFormData,
+} from '@/models/user.model'
 
 const baseUrl = `${API_CONFIG.baseUrl}collections/users/records`
 
@@ -56,10 +48,10 @@ export const useUsersStore = defineStore('users', () => {
     loading.value = true
     try {
       const url = new URL(`${baseUrl}/${id}`)
+      url.searchParams.set('project_id', String(API_CONFIG.projectId))
 
       await fetch(url.toString(), {
         method: 'DELETE',
-        body: JSON.stringify({ project_id: API_CONFIG.projectId }),
         headers: createApiHeaders(),
       })
 
@@ -73,5 +65,61 @@ export const useUsersStore = defineStore('users', () => {
     }
   }
 
-  return { users, loading, fetchUsers, meta, deleteUser }
+  const updateUser = async (data: UserFormData, id: string) => {
+    loading.value = true
+    try {
+      const url = new URL(`${baseUrl}/${id}`)
+      url.searchParams.set('project_id', String(API_CONFIG.projectId))
+
+      await fetch(url.toString(), {
+        method: 'PUT',
+        body: JSON.stringify({
+          data: {
+            first_name: data.first_name,
+            last_name: data.last_name,
+            email: data.email,
+          },
+        }),
+        headers: createApiHeaders(),
+      })
+
+      await fetchUsers({
+        page: meta.value.page,
+      })
+    } catch (error) {
+      console.error(error)
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const createUser = async (data: UserFormData) => {
+    loading.value = true
+    try {
+      const url = new URL(`${baseUrl}`)
+      url.searchParams.set('project_id', String(API_CONFIG.projectId))
+
+      await fetch(url.toString(), {
+        method: 'POST',
+        body: JSON.stringify({
+          data: {
+            first_name: data.first_name,
+            last_name: data.last_name,
+            email: data.email,
+          },
+        }),
+        headers: createApiHeaders(),
+      })
+
+      await fetchUsers({
+        page: meta.value.page,
+      })
+    } catch (error) {
+      console.error(error)
+    } finally {
+      loading.value = false
+    }
+  }
+
+  return { users, loading, fetchUsers, meta, deleteUser, updateUser, createUser }
 })

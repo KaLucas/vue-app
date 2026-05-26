@@ -3,12 +3,16 @@ import { useAuthStore } from '@/stores/auth'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import Snackbar from '@/components/Snackbar.vue'
+import { useThemeStore } from '@/stores/theme'
 
 const authStore = useAuthStore()
 const router = useRouter()
 const email = ref('')
 const password = ref('')
 const showError = ref(false)
+const themeStore = useThemeStore()
+
+themeStore.removeTheme()
 
 const isFormValid = computed(() => !!email.value && !!password.value)
 
@@ -30,7 +34,7 @@ function handleLogin() {
 <template>
   <div class="flex admin-home">
     <div class="access-list">
-      <button @click="goToList()">Acessar lista</button>
+      <button type="button" @click="goToList()">Acessar lista</button>
     </div>
     <div class="login-container flex">
       <img src="@/assets/vue-app.png" width="100%" height="auto" />

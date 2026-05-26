@@ -14,5 +14,10 @@ export const useThemeStore = defineStore('theme', () => {
     document.documentElement.setAttribute('data-theme', theme.value)
   }
 
-  return { theme, toggleTheme, initTheme }
+  function removeTheme() {
+    localStorage.removeItem('theme')
+    document.documentElement.setAttribute('data-theme', 'light')
+  }
+
+  return { theme, toggleTheme, initTheme, removeTheme }
 })

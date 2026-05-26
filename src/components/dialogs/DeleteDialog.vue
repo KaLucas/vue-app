@@ -24,10 +24,15 @@ async function handleDelete() {
       >?
     </h3>
     <div class="dialog-actions flex">
-      <button class="border-radius" @click="dialogStore.closeModal()" :disabled="loading">
+      <button
+        type="button"
+        class="border-radius"
+        @click="dialogStore.closeModal()"
+        :class="{ disabled: loading }"
+      >
         Cancelar
       </button>
-      <button class="border-radius" @click="handleDelete()" :class="{ disabled: loading }">
+      <button type="submit" class="border-radius" :class="{ disabled: loading }">
         <Loader2 :size="16" class="spinning" v-if="loading" />
         <template v-else>Confirmar</template>
       </button>

@@ -7,6 +7,7 @@ export const API_CONFIG = {
 
 export function createApiHeaders(): Record<string, string> {
   return {
+    'Content-Type': 'application/json',
     'x-api-key': API_CONFIG.apiKey || '',
     'X-Reqres-Env': API_CONFIG.environment,
   }

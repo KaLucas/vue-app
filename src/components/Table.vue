@@ -5,9 +5,10 @@ import { storeToRefs } from 'pinia'
 import { onMounted, ref, Teleport } from 'vue'
 import { ChevronLeft, ChevronRight, Edit, Trash } from '@lucide/vue'
 import { useDialogStore } from '@/stores/dialog'
-import DeleteDialog from './DeleteDialog.vue'
-import ModalWindow from './ModalWindow.vue'
+import DeleteDialog from './dialogs/DeleteDialog.vue'
+import DialogWindow from './dialogs/DialogWindow.vue'
 import { formatDate } from '@/utils/format-date'
+import UserFormDialog from './dialogs/UserFormDialog.vue'
 
 const usersStore = useUsersStore()
 const dialogStore = useDialogStore()
@@ -68,7 +69,7 @@ function changePage(page: number) {
             </td>
             <td>
               <div class="action-buttons flex">
-                <Edit :size="20" />
+                <Edit :size="20" @click="dialogStore.openModal('user-form', user)" />
                 <Trash :size="20" @click="dialogStore.openModal('delete', user)" />
               </div>
             </td>
@@ -80,19 +81,32 @@ function changePage(page: number) {
     <p class="empty" v-if="!users.length && !loading">Resultado não encontrado.</p>
 
     <div class="pagination flex">
-      <button class="flex" :disabled="meta.page === 1" @click="changePage(meta.page - 1)">
+      <button
+        type="button"
+        class="flex"
+        :disabled="meta.page === 1"
+        @click="changePage(meta.page - 1)"
+      >
         <ChevronLeft />Anterior
       </button>
       <span>{{ meta.page }} / {{ meta.pages }}</span>
-      <button class="flex" :disabled="meta.page === meta.pages" @click="changePage(meta.page + 1)">
+      <button
+        type="button"
+        class="flex"
+        :disabled="meta.page === meta.pages"
+        @click="changePage(meta.page + 1)"
+      >
         Próxima <ChevronRight />
       </button>
     </div>
   </div>
   <Teleport to="body">
-    <ModalWindow v-if="dialogStore.modalIsActive('delete')">
+    <DialogWindow v-if="dialogStore.modalIsActive('delete')">
       <DeleteDialog />
-    </ModalWindow>
+    </DialogWindow>
+    <DialogWindow v-if="dialogStore.modalIsActive('user-form')">
+      <UserFormDialog />
+    </DialogWindow>
   </Teleport>
 </template>
 

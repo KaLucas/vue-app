@@ -4,7 +4,7 @@ import router from '@/router'
 import { useThemeStore } from '@/stores/theme'
 import { Moon, Sun } from '@lucide/vue'
 
-const ThemeStore = useThemeStore()
+const themeStore = useThemeStore()
 
 function handleRedirect() {
   router.push('/admin')
@@ -15,12 +15,12 @@ function handleRedirect() {
   <header class="flex">
     <h2>Usuários cadastrados</h2>
     <div class="actions-header flex">
-      <button class="icon" @click="ThemeStore.toggleTheme()">
-        <Moon :size="21" v-if="ThemeStore.theme === 'light'" />
+      <button type="button" class="icon" @click="themeStore.toggleTheme()">
+        <Moon :size="21" v-if="themeStore.theme === 'light'" />
         <Sun :size="21" v-else />
       </button>
       <div class="redirect-button-list">
-        <button class="redirect" @click="handleRedirect()">Acessar admin</button>
+        <button type="button" class="redirect" @click="handleRedirect()">Acessar admin</button>
       </div>
     </div>
   </header>
