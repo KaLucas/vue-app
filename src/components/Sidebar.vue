@@ -26,7 +26,7 @@ function handleLogout() {
       </div>
       <div class="bottom-sidebar">
         <div class="logout">
-          <button class="base flex" @click="handleLogout()"><LogOut />Logout</button>
+          <button class="border-radius flex" @click="handleLogout()"><LogOut />Logout</button>
         </div>
         <div class="img-wrapper">
           <img src="@/assets/vue-app.png" alt="Vue App Logo" class="logo" />

@@ -52,7 +52,7 @@ function handleLogin() {
         </fieldset>
         <button
           type="submit"
-          class="base"
+          class="border-radius"
           :class="{ disabled: !isFormValid }"
           :disabled="!isFormValid"
         >

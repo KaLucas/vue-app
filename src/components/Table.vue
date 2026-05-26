@@ -2,11 +2,15 @@
 import type { DatagridUsersList } from '@/models/user.model'
 import { useUsersStore } from '@/stores/users'
 import { storeToRefs } from 'pinia'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, Teleport } from 'vue'
 import { ChevronLeft, ChevronRight, Edit, Trash } from '@lucide/vue'
+import { useDialogStore } from '@/stores/dialog'
+import DeleteDialog from './DeleteDialog.vue'
+import ModalWindow from './ModalWindow.vue'
 
-const store = useUsersStore()
-const { users, loading, meta } = storeToRefs(store)
+const usersStore = useUsersStore()
+const dialogStore = useDialogStore()
+const { users, loading, meta } = storeToRefs(usersStore)
 
 const columns = ref<{ key: keyof DatagridUsersList; label: string }[]>([
   { key: 'first_name', label: 'Nome' },
@@ -17,11 +21,11 @@ const columns = ref<{ key: keyof DatagridUsersList; label: string }[]>([
 ])
 
 onMounted(async () => {
-  await store.fetchUsers({ page: 1 })
+  await usersStore.fetchUsers({ page: 1 })
 })
 
 function changePage(page: number) {
-  store.fetchUsers({ page })
+  usersStore.fetchUsers({ page })
 }
 </script>
 
@@ -50,7 +54,7 @@ function changePage(page: number) {
             <td>
               <div class="action-buttons flex">
                 <Edit :size="20" />
-                <Trash :size="20" />
+                <Trash :size="20" @click="dialogStore.openModal('delete', user)" />
               </div>
             </td>
           </tr>
@@ -70,6 +74,11 @@ function changePage(page: number) {
       </button>
     </div>
   </div>
+  <Teleport to="body">
+    <ModalWindow v-if="dialogStore.modalIsActive('delete')">
+      <DeleteDialog />
+    </ModalWindow>
+  </Teleport>
 </template>
 
 <style lang="css" scoped>
@@ -116,6 +125,7 @@ function changePage(page: number) {
     }
     .action-buttons {
       gap: 10px;
+      cursor: pointer;
     }
     p {
       &.empty {

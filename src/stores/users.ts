@@ -17,7 +17,7 @@ export interface GetUsersParams {
   page?: number
 }
 
-const baseUrl = API_CONFIG.baseUrl
+const baseUrl = `${API_CONFIG.baseUrl}collections/users/records`
 
 export const useUsersStore = defineStore('users', () => {
   const users = ref<DatagridUsersList[]>([])
@@ -27,8 +27,8 @@ export const useUsersStore = defineStore('users', () => {
   const fetchUsers = async (params?: GetUsersParams) => {
     loading.value = true
     try {
-      const url = new URL(`${baseUrl}collections/users/records`)
-      url.searchParams.set('project_id', API_CONFIG.projectId)
+      const url = new URL(baseUrl)
+      url.searchParams.set('project_id', String(API_CONFIG.projectId))
       if (params?.page) url.searchParams.set('page', String(params.page))
       if (params) url.searchParams.set('limit', '10')
 
@@ -52,5 +52,26 @@ export const useUsersStore = defineStore('users', () => {
     }
   }
 
-  return { users, loading, fetchUsers, meta }
+  const deleteUser = async (id: string) => {
+    loading.value = true
+    try {
+      const url = new URL(`${baseUrl}/${id}`)
+
+      await fetch(url.toString(), {
+        method: 'DELETE',
+        body: JSON.stringify({ project_id: API_CONFIG.projectId }),
+        headers: createApiHeaders(),
+      })
+
+      await fetchUsers({
+        page: meta.value.page,
+      })
+    } catch (error) {
+      console.error(error)
+    } finally {
+      loading.value = false
+    }
+  }
+
+  return { users, loading, fetchUsers, meta, deleteUser }
 })
