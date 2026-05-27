@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { useDialogStore } from '@/stores/dialog'
+import { useSnackbarStore } from '@/stores/snackbar'
 import { useUsersStore } from '@/stores/users'
 import { Loader2 } from '@lucide/vue'
 import { storeToRefs } from 'pinia'
 
 const dialogStore = useDialogStore()
 const usersStore = useUsersStore()
+const snackbarStore = useSnackbarStore()
 const { loading } = storeToRefs(usersStore)
 const { selectedUser: user } = storeToRefs(dialogStore)
 
@@ -13,7 +15,9 @@ async function handleDelete() {
   if (loading.value || !user.value?.id) return
 
   await usersStore.deleteUser(user.value?.id as string)
-  dialogStore.closeModal()
+  if (snackbarStore.type === 'success') {
+    dialogStore.closeModal()
+  }
 }
 </script>
 
@@ -29,10 +33,16 @@ async function handleDelete() {
         class="border-radius"
         @click="dialogStore.closeModal()"
         :class="{ disabled: loading }"
+        :disabled="loading"
       >
         Cancelar
       </button>
-      <button type="submit" class="border-radius" :class="{ disabled: loading }">
+      <button
+        type="submit"
+        class="border-radius"
+        :class="{ disabled: loading }"
+        :disabled="loading"
+      >
         <Loader2 :size="16" class="spinning" v-if="loading" />
         <template v-else>Confirmar</template>
       </button>

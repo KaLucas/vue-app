@@ -1,19 +1,5 @@
-<script setup lang="ts">
-import { useDialogStore } from '@/stores/dialog'
-import { useUsersStore } from '@/stores/users'
-
-const dialogStore = useDialogStore()
-const usersStore = useUsersStore()
-
-const handleClose = () => {
-  if (!usersStore.loading) return
-
-  dialogStore.closeModal()
-}
-</script>
-
 <template>
-  <div class="modal-wrapper" aria-modal="true" role="dialog" tabindex="-1" @click="handleClose">
+  <div class="modal-wrapper" aria-modal="true" role="dialog" tabindex="-1">
     <div class="inner">
       <slot></slot>
     </div>

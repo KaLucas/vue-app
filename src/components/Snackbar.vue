@@ -20,7 +20,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="snackbar" :class="type">
+  <div class="snackbar" :class="type" data-testid="snackbar">
     <p>{{ text }}</p>
   </div>
 </template>
@@ -29,16 +29,19 @@ onUnmounted(() => {
 .snackbar {
   width: 300px;
   min-height: 50px;
-  color: var(--color-background-soft);
+  color: var(--vt-c-white-mute);
   padding: 10px 20px;
   border-radius: 8px;
   position: absolute;
   bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
   &.error {
-    background-color: #ffebee;
+    background-color: var(--error);
   }
   &.success {
-    background-color: var(--light-green-3);
+    background-color: var(--brand-active);
   }
 }
 </style>

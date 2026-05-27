@@ -3,7 +3,7 @@ import { useDialogStore } from '@/stores/dialog'
 import { useUsersStore } from '@/stores/users'
 import { Loader2 } from '@lucide/vue'
 import { storeToRefs } from 'pinia'
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 const dialogStore = useDialogStore()
 const usersStore = useUsersStore()
@@ -29,6 +29,9 @@ watch(
   },
   { immediate: true },
 )
+
+const isFormValid = computed(() => !!form.value.first_name && !!form.value.email)
+
 async function handleSubmit() {
   if (loading.value) return
 
@@ -56,10 +59,16 @@ async function handleSubmit() {
         class="border-radius"
         @click="dialogStore.closeModal()"
         :class="{ disabled: loading }"
+        :disabled="!isFormValid"
       >
         Cancelar
       </button>
-      <button class="border-radius" type="submit" :class="{ disabled: loading }">
+      <button
+        class="border-radius"
+        type="submit"
+        :class="{ disabled: loading || !isFormValid }"
+        :disabled="!isFormValid"
+      >
         <Loader2 :size="16" class="spinning" v-if="loading" />
         <template v-else>{{ user?.id ? 'Editar' : 'Salvar' }}</template>
       </button>

@@ -5,9 +5,9 @@ import type {
   DatagridUsersList,
   GetUsersParams,
   GetUsersResponse,
-  User,
   UserFormData,
 } from '@/models/user.model'
+import { useSnackbarStore } from './snackbar'
 
 const baseUrl = `${API_CONFIG.baseUrl}collections/users/records`
 
@@ -15,6 +15,7 @@ export const useUsersStore = defineStore('users', () => {
   const users = ref<DatagridUsersList[]>([])
   const meta = ref({ page: 1, limit: 10, total: 0, pages: 1 })
   const loading = ref(false)
+  const snackbarStore = useSnackbarStore()
 
   const fetchUsers = async (params?: GetUsersParams) => {
     loading.value = true
@@ -50,16 +51,17 @@ export const useUsersStore = defineStore('users', () => {
       const url = new URL(`${baseUrl}/${id}`)
       url.searchParams.set('project_id', String(API_CONFIG.projectId))
 
-      await fetch(url.toString(), {
+      const response = await fetch(url.toString(), {
         method: 'DELETE',
         headers: createApiHeaders(),
       })
 
-      await fetchUsers({
-        page: meta.value.page,
-      })
-    } catch (error) {
-      console.error(error)
+      if (!response.ok) throw new Error()
+
+      snackbarStore.showSnackbar('Usuário excluído com sucesso.', 'success')
+      await fetchUsers({ page: meta.value.page })
+    } catch {
+      snackbarStore.showSnackbar('Erro ao excluir usuário.', 'error')
     } finally {
       loading.value = false
     }
@@ -71,7 +73,7 @@ export const useUsersStore = defineStore('users', () => {
       const url = new URL(`${baseUrl}/${id}`)
       url.searchParams.set('project_id', String(API_CONFIG.projectId))
 
-      await fetch(url.toString(), {
+      const response = await fetch(url.toString(), {
         method: 'PUT',
         body: JSON.stringify({
           data: {
@@ -83,11 +85,12 @@ export const useUsersStore = defineStore('users', () => {
         headers: createApiHeaders(),
       })
 
-      await fetchUsers({
-        page: meta.value.page,
-      })
+      if (!response.ok) throw new Error()
+
+      snackbarStore.showSnackbar('Usuário editado com sucesso.', 'success')
+      await fetchUsers({ page: meta.value.page })
     } catch (error) {
-      console.error(error)
+      snackbarStore.showSnackbar('Erro ao editar usuário.', 'error')
     } finally {
       loading.value = false
     }
@@ -99,7 +102,7 @@ export const useUsersStore = defineStore('users', () => {
       const url = new URL(`${baseUrl}`)
       url.searchParams.set('project_id', String(API_CONFIG.projectId))
 
-      await fetch(url.toString(), {
+      const response = await fetch(url.toString(), {
         method: 'POST',
         body: JSON.stringify({
           data: {
@@ -111,11 +114,12 @@ export const useUsersStore = defineStore('users', () => {
         headers: createApiHeaders(),
       })
 
-      await fetchUsers({
-        page: meta.value.page,
-      })
+      if (!response.ok) throw new Error()
+
+      snackbarStore.showSnackbar('Usuário cadastrado com sucesso.', 'success')
+      await fetchUsers({ page: meta.value.page })
     } catch (error) {
-      console.error(error)
+      snackbarStore.showSnackbar('Erro ao cadastrar usuário.', 'error')
     } finally {
       loading.value = false
     }
