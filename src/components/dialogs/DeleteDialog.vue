@@ -23,10 +23,10 @@ async function handleDelete() {
 
 <template>
   <form role="dialog" @submit.prevent="handleDelete">
-    <h3>
+    <h2 data-testid="delete-title">
       Deseja deletar o usuário <span>{{ user?.first_name }} {{ user?.last_name }}</span
       >?
-    </h3>
+    </h2>
     <div class="dialog-actions flex">
       <button
         type="button"

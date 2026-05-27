@@ -47,7 +47,7 @@ function changePage(page: number) {
 
 <template>
   <div class="table-wrapper flex">
-    <table>
+    <table data-testid="users-list-result">
       <thead>
         <tr>
           <th v-for="col in columns" :key="col.key">{{ col.label }}</th>
@@ -69,8 +69,16 @@ function changePage(page: number) {
             </td>
             <td>
               <div class="action-buttons flex">
-                <Edit :size="20" @click="dialogStore.openModal('user-form', user)" />
-                <Trash :size="20" @click="dialogStore.openModal('delete', user)" />
+                <Edit
+                  :size="20"
+                  @click="dialogStore.openModal('user-form', user)"
+                  data-testid="edit-user"
+                />
+                <Trash
+                  :size="20"
+                  @click="dialogStore.openModal('delete', user)"
+                  data-testid="delete-user"
+                />
               </div>
             </td>
           </tr>
@@ -96,7 +104,7 @@ function changePage(page: number) {
         :disabled="meta.page === meta.pages"
         @click="changePage(meta.page + 1)"
       >
-        Próxima <ChevronRight />
+        Próximo <ChevronRight />
       </button>
     </div>
   </div>

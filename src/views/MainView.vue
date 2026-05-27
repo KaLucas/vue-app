@@ -19,8 +19,15 @@ function handleRedirect() {
         <Moon :size="21" v-if="themeStore.theme === 'light'" />
         <Sun :size="21" v-else />
       </button>
-      <div class="redirect-button-list">
-        <button type="button" class="redirect" @click="handleRedirect()">Acessar admin</button>
+      <div>
+        <button
+          type="button"
+          class="redirect"
+          @click="handleRedirect()"
+          data-testid="redirect-button-admin"
+        >
+          Acessar admin
+        </button>
       </div>
     </div>
   </header>

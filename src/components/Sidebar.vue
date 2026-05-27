@@ -17,21 +17,26 @@ function handleLogout() {
 </script>
 
 <template>
-  <aside>
+  <aside data-testid="sidebar-component">
     <div class="sidebar-wrapper flex">
       <div class="top-sidebar">
-        <div class="user-summary-card flex">
+        <div class="user-summary-card flex" data-testid="user-summary-card">
           <div class="users-data flex">
             <Users />
             <p class="users-title">Total de usuários</p>
           </div>
-          <p class="users-total">{{ meta.total }}</p>
+          <p class="users-total" data-testid="sidebar-count">{{ meta.total }}</p>
           <p class="users-last-update">Último cadastro: {{ formatDate(users[0]?.created_at) }}</p>
         </div>
       </div>
       <div class="bottom-sidebar">
         <div class="logout">
-          <button type="button" class="border-radius flex" @click="handleLogout()">
+          <button
+            type="button"
+            class="border-radius flex"
+            @click="handleLogout()"
+            data-testid="logout-button"
+          >
             <LogOut />Logout
           </button>
         </div>

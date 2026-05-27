@@ -58,10 +58,10 @@ export const useUsersStore = defineStore('users', () => {
 
       if (!response.ok) throw new Error()
 
-      snackbarStore.showSnackbar('Usuário excluído com sucesso.', 'success')
+      snackbarStore.showSnackbar('Usuário deletado com sucesso.', 'success')
       await fetchUsers({ page: meta.value.page })
     } catch {
-      snackbarStore.showSnackbar('Erro ao excluir usuário.', 'error')
+      snackbarStore.showSnackbar('Erro ao deletar usuário.', 'error')
     } finally {
       loading.value = false
     }
@@ -87,10 +87,10 @@ export const useUsersStore = defineStore('users', () => {
 
       if (!response.ok) throw new Error()
 
-      snackbarStore.showSnackbar('Usuário editado com sucesso.', 'success')
+      snackbarStore.showSnackbar('Usuário salvo com sucesso.', 'success')
       await fetchUsers({ page: meta.value.page })
     } catch (error) {
-      snackbarStore.showSnackbar('Erro ao editar usuário.', 'error')
+      snackbarStore.showSnackbar('Erro ao salvar usuário.', 'error')
     } finally {
       loading.value = false
     }
@@ -116,10 +116,10 @@ export const useUsersStore = defineStore('users', () => {
 
       if (!response.ok) throw new Error()
 
-      snackbarStore.showSnackbar('Usuário cadastrado com sucesso.', 'success')
+      snackbarStore.showSnackbar('Usuário criado com sucesso.', 'success')
       await fetchUsers({ page: meta.value.page })
     } catch (error) {
-      snackbarStore.showSnackbar('Erro ao cadastrar usuário.', 'error')
+      snackbarStore.showSnackbar('Erro ao criar novo usuário.', 'error')
     } finally {
       loading.value = false
     }

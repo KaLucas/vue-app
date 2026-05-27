@@ -34,14 +34,24 @@ function handleLogin() {
 <template>
   <div class="flex admin-home">
     <div class="access-list">
-      <button type="button" @click="goToList()">Acessar lista</button>
+      <button type="button" @click="goToList()" data-testid="redirect-button-list">
+        Acessar lista
+      </button>
     </div>
     <div class="login-container flex">
       <img src="@/assets/vue-app.png" width="100%" height="auto" />
       <form class="flex" @submit.prevent="handleLogin()">
         <fieldset>
           <label for="email">Email*</label>
-          <input class="border" id="email" type="email" title="email" v-model="email" required />
+          <input
+            class="border"
+            id="email"
+            type="email"
+            title="email"
+            v-model="email"
+            required
+            data-testid="login-email"
+          />
         </fieldset>
         <fieldset>
           <label for="password">Senha*</label>
@@ -52,6 +62,7 @@ function handleLogin() {
             title="password"
             v-model="password"
             required
+            data-testid="login-password"
           />
         </fieldset>
         <button
@@ -59,6 +70,7 @@ function handleLogin() {
           class="border-radius"
           :class="{ disabled: !isFormValid }"
           :disabled="!isFormValid"
+          data-testid="login-button"
         >
           Login
         </button>

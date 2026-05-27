@@ -47,11 +47,33 @@ async function handleSubmit() {
 
 <template>
   <form role="dialog" @submit.prevent="handleSubmit">
-    <h3>{{ user?.id ? 'Editar usuário' : 'Cadastrar novo usuário' }}</h3>
+    <h2 data-testid="user-form-title">
+      {{ user?.id ? 'Editar usuário' : 'Cadastrar novo usuário' }}
+    </h2>
     <div class="dialog-content flex">
-      <input type="text" class="border" placeholder="Nome" v-model="form.first_name" required />
-      <input type="text" class="border" placeholder="Sobrenome" v-model="form.last_name" />
-      <input type="email" class="border" placeholder="E-mail" v-model="form.email" required />
+      <input
+        type="text"
+        class="border"
+        placeholder="Nome"
+        v-model="form.first_name"
+        required
+        data-testid="input-first-name"
+      />
+      <input
+        type="text"
+        class="border"
+        placeholder="Sobrenome"
+        v-model="form.last_name"
+        data-testid="input-last-name"
+      />
+      <input
+        type="email"
+        class="border"
+        placeholder="E-mail"
+        v-model="form.email"
+        required
+        data-testid="input-email"
+      />
     </div>
     <div class="dialog-actions flex">
       <button
@@ -70,7 +92,7 @@ async function handleSubmit() {
         :disabled="!isFormValid"
       >
         <Loader2 :size="16" class="spinning" v-if="loading" />
-        <template v-else>{{ user?.id ? 'Editar' : 'Salvar' }}</template>
+        <template v-else>{{ user?.id ? 'Salvar' : 'Criar' }}</template>
       </button>
     </div>
   </form>

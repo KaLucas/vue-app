@@ -10,7 +10,12 @@ const dialogStore = useDialogStore()
   <section>
     <div class="top-section flex">
       <h2>Lista de Usuários</h2>
-      <button type="button" class="border-radius flex" @click="dialogStore.openModal('user-form')">
+      <button
+        type="button"
+        class="border-radius flex"
+        @click="dialogStore.openModal('user-form')"
+        data-testid="create-user"
+      >
         <Plus :size="20" />
         Cadastrar novo
       </button>
