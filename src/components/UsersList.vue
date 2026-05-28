@@ -7,7 +7,7 @@ const dialogStore = useDialogStore()
 </script>
 
 <template>
-  <section>
+  <section data-testid="users-list-component">
     <div class="top-section flex">
       <h2>Lista de Usuários</h2>
       <button
