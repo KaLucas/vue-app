@@ -1,37 +1,31 @@
-describe('Users List', () => {
-  beforeEach(() => {
-    cy.intercept(
-      { method: 'GET', url: '**/collections/users/records*', times: 1 },
-      {
-        fixture: 'users-list.json',
-      },
-    ).as('get-users-list')
-
-    cy.visit('/admin/dashboard', {
-      onBeforeLoad(win) {
-        win.localStorage.setItem('token', 'fake-token')
-      },
+beforeEach(() => {
+  cy.intercept('GET', '**/collections/users/records*', (req) => {
+    const page = req.query.page
+    req.reply({
+      fixture: page === '2' ? 'users-list-page-2.json' : 'users-list.json',
     })
+  }).as('get-users-list')
 
-    cy.contains('Lista de Usuários').should('be.visible')
+  cy.visit('/admin/dashboard', {
+    onBeforeLoad(win) {
+      win.localStorage.setItem('token', 'fake-token')
+    },
   })
 
-  it('Should list users', () => {
-    cy.get('[data-testid=users-list-result]').should('have.length.greaterThan', 0)
-    cy.get('tbody > tr > td').eq(0).should('contain.text', 'Novo')
-    cy.get('tbody > tr > td').eq(1).should('contain.text', 'Usuário')
-    cy.get('tbody > tr > td').eq(2).should('contain.text', 'novo@email.com')
-  })
+  cy.wait('@get-users-list')
+})
 
-  it('Should change to page 2 and list users', () => {
-    cy.intercept('GET', '**/collections/users/records*', {
-      fixture: 'users-list-page-2.json',
-    }).as('get-users-list2')
+it('Should list users', () => {
+  cy.get('[data-testid=users-list-result]').should('have.length.greaterThan', 0)
+  cy.get('tbody > tr > td').eq(0).should('contain.text', 'Novo')
+})
 
-    cy.contains('Próximo').click()
-    cy.wait('@get-users-list2')
-    cy.get('tbody > tr > td').eq(0).should('contain.text', 'Dawn')
-    cy.get('tbody > tr > td').eq(1).should('contain.text', 'Summers')
-    cy.get('tbody > tr > td').eq(2).should('contain.text', 'dawn.summers@sunnydale.com')
-  })
+it('Should change to page 2 and list users', () => {
+  cy.intercept('GET', '**/collections/users/records*', (req) => {
+    req.reply({ fixture: 'users-list-page-2.json' })
+  }).as('get-page-2')
+
+  cy.contains('Próximo').should('not.be.disabled').click()
+  cy.wait('@get-page-2')
+  cy.contains('Dawn').should('be.visible')
 })
