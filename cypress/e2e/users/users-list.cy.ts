@@ -12,8 +12,6 @@ describe('Users List', () => {
         win.localStorage.setItem('token', 'fake-token')
       },
     })
-
-    cy.wait('@get-users-list')
   })
 
   it('Should list users', () => {
