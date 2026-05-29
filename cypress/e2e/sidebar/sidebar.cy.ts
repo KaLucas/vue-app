@@ -1,6 +1,10 @@
 describe('Sidebar', () => {
   beforeEach(() => {
-    cy.login()
+    cy.visit('/admin/dashboard', {
+      onBeforeLoad(win) {
+        win.localStorage.setItem('token', 'fake-token')
+      },
+    })
   })
 
   it('Should display sidebar data', () => {

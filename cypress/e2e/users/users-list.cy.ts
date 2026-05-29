@@ -10,7 +10,6 @@ describe('Users List', () => {
       },
     })
 
-    cy.login()
     cy.wait('@get-users-list')
   })
 

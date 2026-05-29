@@ -10,7 +10,6 @@ describe('Users Edit', () => {
       },
     })
 
-    cy.login()
     cy.wait('@get-users-list')
   })
 

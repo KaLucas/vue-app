@@ -18,7 +18,6 @@ describe('Users Create', () => {
       },
     })
 
-    cy.login()
     cy.wait('@get-users')
   })
 

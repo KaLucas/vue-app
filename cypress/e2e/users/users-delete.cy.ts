@@ -10,7 +10,6 @@ describe('Users Delete', () => {
       },
     })
 
-    cy.login()
     cy.wait('@get-users-list')
   })
 

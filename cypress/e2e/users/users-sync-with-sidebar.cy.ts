@@ -10,7 +10,6 @@ describe('Users sync with sidebar', () => {
       },
     })
 
-    cy.login()
     cy.wait('@get-users')
   })
 
