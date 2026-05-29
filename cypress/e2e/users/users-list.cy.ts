@@ -2,7 +2,6 @@ describe('Users List', () => {
   beforeEach(() => {
     cy.intercept('GET', '**/collections/users/records*', (req) => {
       const page = req.query.page
-
       req.reply({
         fixture: page === '2' ? 'users-list-page-2.json' : 'users-list.json',
       })
@@ -13,6 +12,8 @@ describe('Users List', () => {
         win.localStorage.setItem('token', 'fake-token')
       },
     })
+
+    cy.wait('@get-users-list')
   })
 
   it('Should list users', () => {
@@ -20,6 +21,7 @@ describe('Users List', () => {
   })
 
   it('Should change to page 2 and list users', () => {
+    cy.wait('@get-users-list')
     cy.contains('Próximo').should('not.be.disabled').click()
     cy.wait('@get-users-list').its('response.body.meta.pages').should('eq', 2)
     cy.contains('Dawn').should('be.visible')
