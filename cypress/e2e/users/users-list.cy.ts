@@ -21,7 +21,7 @@ describe('Users List', () => {
 
   it('Should change to page 2 and list users', () => {
     cy.contains('Próximo').should('not.be.disabled').click()
-    cy.wait('@get-users-list')
+    cy.wait('@get-users-list').its('response.body.meta.pages').should('eq', 2)
     cy.contains('Dawn').should('be.visible')
   })
 })
