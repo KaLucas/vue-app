@@ -5,7 +5,6 @@ describe('Users sync with sidebar', () => {
     }).as('get-users')
 
     cy.login()
-
     cy.wait('@get-users')
   })
 
@@ -25,19 +24,15 @@ describe('Users sync with sidebar', () => {
     }).as('get-users-created')
 
     cy.get('[data-testid=sidebar-count]').should('contain.text', '11')
-
     cy.get('[data-testid=create-user]').click()
-
     cy.get('form').within(() => {
       cy.get('[data-testid=input-first-name]').type('New')
       cy.get('[data-testid=input-last-name]').type('User')
       cy.get('[data-testid=input-email]').type('email@email.com')
       cy.contains('button', 'Criar').click()
     })
-
     cy.wait('@create-user')
     cy.wait('@get-users-created')
-
     cy.get('[data-testid=sidebar-count]').should('contain.text', '12')
   })
 
@@ -63,7 +58,6 @@ describe('Users sync with sidebar', () => {
     })
 
     cy.wait('@get-users-delete')
-
     cy.get('[data-testid=sidebar-count]').should('contain.text', '10')
   })
 })

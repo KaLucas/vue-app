@@ -5,7 +5,6 @@ describe('Users Delete', () => {
     }).as('get-users-list')
 
     cy.login()
-
     cy.wait('@get-users-list')
   })
 
@@ -33,13 +32,9 @@ describe('Users Delete', () => {
     })
 
     cy.wait('@get-users-delete')
-
     cy.get('[data-testid=snackbar]').should('contain.text', 'Usuário deletado com sucesso.')
-
     cy.wait('@get-users-list-user-delete')
-
     cy.get('.modal-wrapper').should('not.exist')
-
     cy.get('tbody > tr > td').eq(0).should('contain.text', 'Outro')
   })
 
@@ -63,7 +58,6 @@ describe('Users Delete', () => {
     })
 
     cy.wait('@get-users-delete')
-
     cy.get('[data-testid=snackbar]').should('contain.text', 'Erro ao deletar usuário.')
   })
 })

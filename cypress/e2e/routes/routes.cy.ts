@@ -6,7 +6,6 @@ describe('Routes', () => {
     it('Should redirect to home if not logged in', () => {
       cy.logout()
       cy.visit('/admin/dashboard')
-
       cy.url().should('include', '/admin')
       cy.get('form').should('be.visible')
     })
@@ -23,7 +22,6 @@ describe('Routes', () => {
       cy.visit('/admin')
 
       cy.get('[data-testid=redirect-button-list]').click()
-
       cy.url().should('include', '/')
       cy.get('h2').contains('Usuários cadastrados').should('be.visible')
       cy.get('.card-wrapper').should('exist')
@@ -33,7 +31,6 @@ describe('Routes', () => {
       cy.visit('/')
 
       cy.get('[data-testid=redirect-button-admin]').click()
-
       cy.url().should('include', '/admin')
       cy.get('form').should('be.visible')
     })

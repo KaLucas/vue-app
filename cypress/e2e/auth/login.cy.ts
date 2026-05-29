@@ -5,7 +5,6 @@ describe('Login', () => {
     cy.get('[data-testid=login-email]').type('admin@email.com')
     cy.get('[data-testid=login-password]').type('123456')
     cy.get('[data-testid=login-button]').click()
-
     cy.url().should('include', '/admin/dashboard')
     cy.get('h2').contains('Lista de Usuários').should('be.visible')
   })
@@ -16,7 +15,6 @@ describe('Login', () => {
     cy.get('[data-testid=login-email]').type('teste@email.com')
     cy.get('[data-testid=login-password]').type('2345')
     cy.get('[data-testid=login-button]').click()
-
     cy.get('[data-testid=snackbar]').contains('E-mail ou senha inválidos.').should('be.visible')
   })
 })

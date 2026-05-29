@@ -5,7 +5,6 @@ describe('Users List', () => {
     }).as('get-users-list')
 
     cy.login()
-
     cy.wait('@get-users-list')
   })
 
@@ -23,9 +22,7 @@ describe('Users List', () => {
 
     cy.get('[data-testid=users-list-result]').should('have.length.greaterThan', 0)
     cy.get('button').contains('Próximo').click()
-
     cy.wait('@get-users-list2')
-
     cy.get('tbody > tr > td').eq(0).should('contain.text', 'Dawn')
     cy.get('tbody > tr > td').eq(1).should('contain.text', 'Summers')
     cy.get('tbody > tr > td').eq(2).should('contain.text', 'dawn.summers@sunnydale.com')

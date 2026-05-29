@@ -5,7 +5,6 @@ describe('Users Edit', () => {
     }).as('get-users-list')
 
     cy.login()
-
     cy.wait('@get-users-list')
   })
 
@@ -25,20 +24,15 @@ describe('Users Edit', () => {
       })
 
     cy.get('h2').should('contain.text', 'Editar usuário')
-
     cy.get('form').within(() => {
       cy.get('[data-testid=input-first-name]').type('{backspace}a')
       cy.get('button').contains('Salvar').click()
     })
 
     cy.wait('@get-users-edit')
-
     cy.get('.modal-wrapper').should('not.exist')
-
     cy.get('[data-testid=snackbar]').should('contain.text', 'Usuário salvo com sucesso.')
-
     cy.wait('@get-users-list-updated')
-
     cy.get('tbody > tr > td').eq(0).should('contain.text', 'Nova')
   })
 
@@ -59,7 +53,6 @@ describe('Users Edit', () => {
     })
 
     cy.wait('@get-users-edit')
-
     cy.get('[data-testid=snackbar]').should('contain.text', 'Erro ao salvar usuário.')
   })
 })
