@@ -1,11 +1,18 @@
 describe('Users List', () => {
   beforeEach(() => {
-    cy.intercept('GET', '**/collections/users/records*', {
-      fixture: 'users-list.json',
+    cy.intercept('GET', '**/collections/users/records*', (req) => {
+      const page = req.query.page
+
+      req.reply({
+        fixture: page === '2' ? 'users-list-page-2.json' : 'users-list.json',
+      })
     }).as('get-users-list')
 
-    cy.login('/admin/dashboard')
-    cy.contains('Lista de Usuários').should('be.visible')
+    cy.visit('/admin/dashboard', {
+      onBeforeLoad(win) {
+        win.localStorage.setItem('token', 'fake-token')
+      },
+    })
   })
 
   it('Should list users', () => {
@@ -13,12 +20,8 @@ describe('Users List', () => {
   })
 
   it('Should change to page 2 and list users', () => {
-    cy.intercept('GET', '**/collections/users/records*', {
-      fixture: 'users-list-page-2.json',
-    }).as('get-users-list2')
-
-    cy.contains('Próximo').click()
-    cy.wait('@get-users-list2')
+    cy.contains('Próximo').should('not.be.disabled').click()
+    cy.wait('@get-users-list')
     cy.contains('Dawn').should('be.visible')
   })
 })
