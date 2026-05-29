@@ -4,6 +4,12 @@ describe('Users sync with sidebar', () => {
       fixture: 'users-list.json',
     }).as('get-users')
 
+    cy.visit('/admin/dashboard', {
+      onBeforeLoad(win) {
+        win.localStorage.setItem('token', 'fake-token')
+      },
+    })
+
     cy.login()
     cy.wait('@get-users')
   })

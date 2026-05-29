@@ -12,6 +12,12 @@ describe('Users Create', () => {
       }
     }).as('get-users')
 
+    cy.visit('/admin/dashboard', {
+      onBeforeLoad(win) {
+        win.localStorage.setItem('token', 'fake-token')
+      },
+    })
+
     cy.login()
     cy.wait('@get-users')
   })

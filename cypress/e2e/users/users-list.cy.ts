@@ -4,6 +4,12 @@ describe('Users List', () => {
       fixture: 'users-list.json',
     }).as('get-users-list')
 
+    cy.visit('/admin/dashboard', {
+      onBeforeLoad(win) {
+        win.localStorage.setItem('token', 'fake-token')
+      },
+    })
+
     cy.login()
     cy.wait('@get-users-list')
   })
