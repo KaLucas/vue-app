@@ -23,7 +23,7 @@ jobs:
         run: npm ci
 
       - name: Run Vitest
-        run: npm run test -- --watch=false
+        run: npm run test:unit -- --run
 
   e2e:
     runs-on: ubuntu-latest
@@ -41,11 +41,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Start dev server
-        run: npm start &
+      - name: Build
+        run: npm run build
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
+          VITE_ENV: ${{ secrets.VITE_ENV }}
+          VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
 
-      - name: Wait for server
-        run: npx wait-on http://localhost:4200
-
-      - name: Run Cypress tests
-        run: npx cypress run
+      - name: Run Cypress
+        run: npm run test:e2e
