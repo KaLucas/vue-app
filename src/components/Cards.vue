@@ -16,7 +16,7 @@ onMounted(async () => {
   <Loader2 :size="64" class="spinning" v-if="loading" />
   <main v-else>
     <div class="card-wrapper">
-      <div class="card-content">
+      <div class="card-content" data-testid="card-content">
         <div class="card border" v-for="user in users" :key="user.id">
           <h3>{{ user.first_name }} {{ user.last_name }}</h3>
           <p>{{ user.email }}</p>
