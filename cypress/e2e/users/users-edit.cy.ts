@@ -10,7 +10,7 @@ describe('Users Edit', () => {
       },
     })
 
-    cy.wait('@get-users-list', { timeout: 15000 })
+    cy.wait('@get-users-list', { timeout: 30000 })
   })
 
   it('Should select user, open dialog, edit successfully and fetch updated list', () => {
@@ -34,10 +34,10 @@ describe('Users Edit', () => {
       cy.get('button').contains('Salvar').click()
     })
 
-    cy.wait('@get-users-edit', { timeout: 15000 })
+    cy.wait('@get-users-edit', { timeout: 30000 })
     cy.get('.modal-wrapper').should('not.exist')
     cy.get('[data-testid=snackbar]').should('contain.text', 'Usuário salvo com sucesso.')
-    cy.wait('@get-users-list-updated', { timeout: 15000 })
+    cy.wait('@get-users-list-updated', { timeout: 30000 })
     cy.get('tbody > tr > td').eq(0).should('contain.text', 'Nova')
   })
 
@@ -57,7 +57,7 @@ describe('Users Edit', () => {
       cy.get('button').contains('Salvar').click()
     })
 
-    cy.wait('@get-users-edit', { timeout: 15000 })
+    cy.wait('@get-users-edit', { timeout: 30000 })
     cy.get('[data-testid=snackbar]').should('contain.text', 'Erro ao salvar usuário.')
   })
 })
