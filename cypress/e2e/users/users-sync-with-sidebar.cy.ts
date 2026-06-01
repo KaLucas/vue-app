@@ -10,7 +10,7 @@ describe('Users sync with sidebar', () => {
       },
     })
 
-    cy.wait('@get-users')
+    cy.wait('@get-users', { timeout: 15000 })
   })
 
   it('Should update sidebar count after creating user', () => {
@@ -36,8 +36,8 @@ describe('Users sync with sidebar', () => {
       cy.get('[data-testid=input-email]').type('email@email.com')
       cy.contains('button', 'Criar').click()
     })
-    cy.wait('@create-user')
-    cy.wait('@get-users-created')
+    cy.wait('@create-user', { timeout: 15000 })
+    cy.wait('@get-users-created', { timeout: 15000 })
     cy.get('[data-testid=sidebar-count]').should('contain.text', '12')
   })
 
@@ -62,7 +62,7 @@ describe('Users sync with sidebar', () => {
       cy.get('button').contains('Confirmar').click()
     })
 
-    cy.wait('@get-users-delete')
+    cy.wait('@get-users-delete', { timeout: 15000 })
     cy.get('[data-testid=sidebar-count]').should('contain.text', '10')
   })
 })

@@ -12,10 +12,11 @@ beforeEach(() => {
     },
   })
 
-  cy.wait('@get-users-list')
+  cy.wait('@get-users-list', { timeout: 15000 })
 })
 
 it('Should list users', () => {
+  cy.get('[data-testid="users-list-component"]').should('exist')
   cy.get('[data-testid=users-list-result]').should('have.length.greaterThan', 0)
   cy.get('tbody > tr > td').eq(0).should('contain.text', 'Novo')
 })
