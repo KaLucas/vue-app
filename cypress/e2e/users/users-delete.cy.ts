@@ -10,7 +10,7 @@ describe('Users Delete', () => {
       },
     })
 
-    cy.wait('@get-users-list', { timeout: 30000 })
+    cy.wait('@get-users-list')
   })
 
   it('Should select user, open dialog, delete successfully and fetch updated list', () => {
@@ -36,9 +36,9 @@ describe('Users Delete', () => {
       cy.get('button').contains('Confirmar').click()
     })
 
-    cy.wait('@get-users-delete', { timeout: 30000 })
+    cy.wait('@get-users-delete')
     cy.get('[data-testid=snackbar]').should('contain.text', 'Usuário deletado com sucesso.')
-    cy.wait('@get-users-list-user-delete', { timeout: 30000 })
+    cy.wait('@get-users-list-user-delete')
     cy.get('.modal-wrapper').should('not.exist')
     cy.get('tbody > tr > td').eq(0).should('contain.text', 'Outro')
   })
@@ -62,7 +62,7 @@ describe('Users Delete', () => {
       cy.get('button').contains('Confirmar').click()
     })
 
-    cy.wait('@get-users-delete', { timeout: 30000 })
+    cy.wait('@get-users-delete')
     cy.get('[data-testid=snackbar]').should('contain.text', 'Erro ao deletar usuário.')
   })
 })

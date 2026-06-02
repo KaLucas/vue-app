@@ -18,7 +18,7 @@ describe('Users Create', () => {
       },
     })
 
-    cy.wait('@get-users', { timeout: 30000 })
+    cy.wait('@get-users')
   })
 
   it('Should create new user successfully and fetch updated list', () => {
@@ -41,10 +41,10 @@ describe('Users Create', () => {
       cy.contains('button', 'Criar').click()
     })
 
-    cy.wait('@create-user', { timeout: 30000 })
+    cy.wait('@create-user')
     cy.get('.modal-wrapper').should('not.exist')
     cy.get('[data-testid=snackbar]').should('contain.text', 'Usuário criado com sucesso.')
-    cy.wait('@get-users', { timeout: 30000 })
+    cy.wait('@get-users')
     cy.get('tbody > tr > td').eq(0).should('contain.text', 'New')
   })
 
@@ -61,7 +61,7 @@ describe('Users Create', () => {
       cy.get('[data-testid=input-email]').type('email@email.com')
       cy.get('button').contains('Criar').click()
     })
-    cy.wait('@create-user-error', { timeout: 30000 })
+    cy.wait('@create-user-error')
     cy.get('[data-testid=snackbar]').should('contain.text', 'Erro ao criar novo usuário.')
   })
 })

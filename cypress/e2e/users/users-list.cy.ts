@@ -12,7 +12,7 @@ beforeEach(() => {
     },
   })
 
-  cy.wait('@get-users-list', { timeout: 30000 })
+  cy.wait('@get-users-list')
 })
 
 it('Should list users', () => {
@@ -27,6 +27,6 @@ it('Should change to page 2 and list users', () => {
   }).as('get-page-2')
 
   cy.contains('Próximo').should('not.be.disabled').click()
-  cy.wait('@get-page-2', { timeout: 30000 })
+  cy.wait('@get-page-2')
   cy.contains('Dawn').should('be.visible')
 })
