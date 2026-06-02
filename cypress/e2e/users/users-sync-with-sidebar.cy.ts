@@ -2,15 +2,10 @@ describe('Users sync with sidebar', () => {
   beforeEach(() => {
     cy.intercept('GET', '**/collections/users/records*', {
       fixture: 'users-list.json',
-    }).as('get-users')
+    }).as('get-users-list')
 
-    cy.visit('/admin/dashboard', {
-      onBeforeLoad(win) {
-        win.localStorage.setItem('token', 'fake-token')
-      },
-    })
-
-    cy.wait('@get-users')
+    cy.login()
+    cy.wait('@get-users-list')
   })
 
   it('Should update sidebar count after creating user', () => {

@@ -15,12 +15,7 @@ describe('Routes', () => {
         fixture: 'users-list.json',
       }).as('get-users-list')
 
-      cy.visit('/admin/dashboard', {
-        onBeforeLoad(win) {
-          win.localStorage.setItem('token', 'fake-token')
-        },
-      })
-
+      cy.login()
       cy.wait('@get-users-list')
       cy.get('h2').contains('Lista de Usuários').should('be.visible')
     })

@@ -10,15 +10,10 @@ describe('Users Create', () => {
       } else {
         req.reply({ fixture: 'users-list-user-created.json' })
       }
-    }).as('get-users')
+    }).as('get-users-list')
 
-    cy.visit('/admin/dashboard', {
-      onBeforeLoad(win) {
-        win.localStorage.setItem('token', 'fake-token')
-      },
-    })
-
-    cy.wait('@get-users')
+    cy.login()
+    cy.wait('@get-users-list')
   })
 
   it('Should create new user successfully and fetch updated list', () => {
@@ -44,7 +39,7 @@ describe('Users Create', () => {
     cy.wait('@create-user')
     cy.get('.modal-wrapper').should('not.exist')
     cy.get('[data-testid=snackbar]').should('contain.text', 'Usuário criado com sucesso.')
-    cy.wait('@get-users')
+    cy.wait('@get-users-list')
     cy.get('tbody > tr > td').eq(0).should('contain.text', 'New')
   })
 
