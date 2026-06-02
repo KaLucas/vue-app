@@ -21,7 +21,7 @@ describe('Routes', () => {
         },
       })
 
-      cy.wait('@get-users-list', { timeout: 30000 })
+      cy.wait('@get-users-list')
       cy.get('h2').contains('Lista de Usuários').should('be.visible')
     })
   })
