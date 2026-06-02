@@ -1,17 +1,9 @@
 beforeEach(() => {
-  cy.intercept('GET', '**/collections/users/records*', (req) => {
-    const page = req.query.page
-    req.reply({
-      fixture: page === '2' ? 'users-list-page-2.json' : 'users-list.json',
-    })
+  cy.intercept('GET', '**/collections/users/records*', {
+    fixture: 'users-list.json',
   }).as('get-users-list')
 
-  cy.visit('/admin/dashboard', {
-    onBeforeLoad(win) {
-      win.localStorage.setItem('token', 'fake-token')
-    },
-  })
-
+  cy.login()
   cy.wait('@get-users-list')
 })
 
