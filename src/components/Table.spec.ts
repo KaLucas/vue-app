@@ -53,4 +53,16 @@ describe('Table', () => {
     expect(wrapper.find('[data-testid="users-list-result"]').exists()).toBe(true)
     expect(wrapper.findAll('tbody > tr')).toHaveLength(2)
   })
+
+  it('Should show error message when request fails', async () => {
+    const usersStore = useUsersStore()
+    vi.spyOn(usersStore, 'fetchUsers').mockResolvedValue()
+    usersStore.error = true
+
+    const wrapper = mount(Table)
+    await wrapper.vm.$nextTick()
+
+    expect(wrapper.find('[data-testid="error-message"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="error-message"]').text()).toBe('Erro ao buscar informações.')
+  })
 })

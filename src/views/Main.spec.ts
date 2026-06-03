@@ -39,9 +39,7 @@ describe('Main', () => {
     usersStore.meta = { page: 1, limit: 10, total: 2, pages: 1 }
 
     const wrapper = mount(Main)
-
     await wrapper.vm.$nextTick()
-    console.log('wrapper', wrapper.find('h2'))
 
     expect(wrapper.find('h2').text()).toBe('Usuários cadastrados')
   })

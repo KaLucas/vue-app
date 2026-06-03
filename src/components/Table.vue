@@ -12,7 +12,7 @@ import UserFormDialog from './dialogs/UserFormDialog.vue'
 
 const usersStore = useUsersStore()
 const dialogStore = useDialogStore()
-const { users, loading, meta } = storeToRefs(usersStore)
+const { users, loading, meta, error } = storeToRefs(usersStore)
 
 const columns = ref<{ key: keyof DatagridUsersList; label: string }[]>([
   { key: 'first_name', label: 'Nome' },
@@ -86,7 +86,12 @@ function changePage(page: number) {
       </tbody>
     </table>
 
-    <p class="empty" v-if="!users.length && !loading">Resultado não encontrado.</p>
+    <p class="empty-message" v-if="error" data-testid="error-message">
+      Erro ao buscar informações.
+    </p>
+    <p class="empty-message" v-else-if="!users.length && !loading">
+      Não existem dados a serem exibidos.
+    </p>
 
     <div class="pagination flex">
       <button
@@ -164,13 +169,13 @@ function changePage(page: number) {
       gap: 10px;
       cursor: pointer;
     }
-    p {
-      &.empty {
-        font-size: 20px;
-        font-weight: bold;
-        text-align: center;
-        margin-top: 100px;
-      }
+  }
+  p {
+    &.empty-message {
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 20px;
     }
   }
 }

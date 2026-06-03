@@ -15,10 +15,12 @@ export const useUsersStore = defineStore('users', () => {
   const users = ref<DatagridUsersList[]>([])
   const meta = ref({ page: 1, limit: 10, total: 0, pages: 1 })
   const loading = ref(false)
+  const error = ref(false)
   const snackbarStore = useSnackbarStore()
 
   const fetchUsers = async (params?: GetUsersParams) => {
     loading.value = true
+    error.value = false
     try {
       const url = new URL(baseUrl)
       url.searchParams.set('project_id', String(API_CONFIG.projectId))
@@ -38,8 +40,8 @@ export const useUsersStore = defineStore('users', () => {
         updated_at: user.updated_at,
       }))
       meta.value = data.meta
-    } catch (error) {
-      console.error(error)
+    } catch {
+      error.value = true
     } finally {
       loading.value = false
     }
@@ -125,5 +127,5 @@ export const useUsersStore = defineStore('users', () => {
     }
   }
 
-  return { users, loading, fetchUsers, meta, deleteUser, updateUser, createUser }
+  return { users, loading, fetchUsers, meta, deleteUser, updateUser, createUser, error }
 })
